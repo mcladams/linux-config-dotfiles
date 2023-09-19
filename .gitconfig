@@ -8,6 +8,8 @@
 	email = 10792116+mcladams@users.noreply.github.com
 [pull]
 	rebase = true
+[push]
+	autoSetupRemote = true
 [fetch]
 	prune = true
 [diff]
