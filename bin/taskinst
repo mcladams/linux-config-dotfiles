@@ -74,3 +74,5 @@ type -p gh >/dev/null || (echo "Installing gh from githuibcli-archive..." && ins
 type -p makedeb >/dev/null || (echo "Installing makedeb with deb-get..." && deb-get install makedeb)
 type -p nvim >/dev/null ||
 #type -p nvim >/dev/null || (echo "Installing neovim..." && "Done" )
+# install starship if wanted
+# curl -sS https://starship.rs/install.sh | sh

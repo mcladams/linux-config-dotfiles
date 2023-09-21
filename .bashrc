@@ -16,8 +16,8 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=5000
+HISTFILESIZE=10000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -25,7 +25,7 @@ shopt -s checkwinsize
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
-#shopt -s globstar
+shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -85,12 +85,12 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-alias ll='ls -alF'
+alias l='ls -alF'
 alias la='ls -A'
-alias l='ls -CF'
+alias ll='ls -CF'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -108,12 +108,46 @@ fi
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
+if [ ! -f /etc/profile.d/bash_completion.sh ]; then
+  if ! shopt -oq posix; then
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+      . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+      . /etc/bash_completion
+    fi
   fi
 fi
 
-. "/usr/local/cargo/env"
+# if rust enstalled
+if [ -f /usr/local/cargo/env ]; then
+  . "/usr/local/cargo/env"
+  export CARGO_HOME="/usr/local/cargo"
+  export RUSTUP_HOME="/usr/local/rustup"
+fi
+
+########## Kaisen settings, don't remove please ##########
+
+#Add the $HOME/.krew folder in the PATH
+PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+#Use apt full-upgrade instead of apt upgrade (user mode)
+sudo() { if [[ $@ == "apt upgrade" ]]; then command sudo apt full-upgrade; else command sudo "$@"; fi; }
+
+#Use apt full-upgrade instead of apt upgrade (root mode)
+apt() { if [[ $@ == "upgrade" ]]; then command apt full-upgrade; else command apt "$@"; fi; }
+
+########## Kaisen settings, end ##########
+eval 
+            __main() {
+                local major="${BASH_VERSINFO[0]}"
+                local minor="${BASH_VERSINFO[1]}"
+
+                if ((major > 4)) || { ((major == 4)) && ((minor >= 1)); }; then
+                    source <(/usr/local/bin/starship init bash --print-full-init)
+                else
+                    source /dev/stdin <<<"$(/usr/local/bin/starship init bash --print-full-init)"
+                fi
+            }
+            __main
+            unset -f __main
+            

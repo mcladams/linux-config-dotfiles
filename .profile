@@ -26,4 +26,9 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-. "/usr/local/cargo/env"
+# if rust enstalled
+if [ -f /usr/local/cargo/env ]; then
+  . "/usr/local/cargo/env"
+  export CARGO_HOME="/usr/local/cargo"
+  export RUSTUP_HOME="/usr/local/rustup"
+fi

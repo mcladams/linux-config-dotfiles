@@ -1,0 +1,35 @@
+
+root@T490-sid-zfs:/usr/src/zfs-master# rsync -haHAX --exclude="/.git*" ../zabbly-zfs/ .
+root@T490-sid-zfs:/usr/src/zfs-master# git status
+On branch zfs-2.2.0-rc4+zabbly
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   META
+        modified:   README.md
+        modified:   config/kernel-blkdev.m4
+        modified:   config/kernel-block-device-operations.m4
+        modified:   config/kernel-vfs-iov_iter.m4
+        modified:   config/kernel.m4
+        modified:   config/zfs-build.m4
+        modified:   contrib/debian/changelog
+        modified:   contrib/debian/control
+        modified:   contrib/debian/openzfs-zfs-dkms.templates
+        modified:   contrib/debian/rules.in
+        modified:   include/os/linux/kernel/linux/blkdev_compat.h
+        modified:   include/os/linux/spl/sys/kmem_cache.h
+        modified:   include/sys/sa_impl.h
+        modified:   include/sys/vdev_raidz_impl.h
+        modified:   include/sys/zap_impl.h
+        modified:   include/sys/zap_leaf.h
+        modified:   module/os/linux/spl/spl-proc.c
+        modified:   module/os/linux/zfs/vdev_disk.c
+        modified:   module/os/linux/zfs/zfs_vnops_os.c
+        modified:   module/os/linux/zfs/zpl_ctldir.c
+        modified:   module/os/linux/zfs/zpl_file.c
+        modified:   module/os/linux/zfs/zvol_os.c
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        config/kernel-filemap-splice-read.m4
+        config/kernel-register_sysctl_table.m4
