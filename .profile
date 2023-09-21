@@ -32,3 +32,4 @@ if [ -f /usr/local/cargo/env ]; then
   export CARGO_HOME="/usr/local/cargo"
   export RUSTUP_HOME="/usr/local/rustup"
 fi
+_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
