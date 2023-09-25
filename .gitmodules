@@ -1,0 +1,3 @@
+[submodule "git/gh.yutkat.dotfiles"]
+	path = git/gh.yutkat.dotfiles
+	url = https://github.com/yutkat/dotfiles

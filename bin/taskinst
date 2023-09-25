@@ -97,6 +97,12 @@ function inst_rust() {
 # requires http://ftp.debian.org/debian/pool/main/o/openssl/libssl1.1_1.1.1w-0~deb11u1_amd64.deb
 # from https://github.com/wez/wezterm/releases/latest
 
+# Install starship prompt and a powerline toml
+function inst_starship() {
+    curl -sS https://starship.rs/install.sh | sh
+    echo 'eval "$(starship init bash)"' >> $HOME/.bashrc
+}
+
 # Init new system
 function init_gitconfig() {
     local depends="git gawk"
@@ -114,11 +120,11 @@ function init_gitconfig() {
 }
 
 # Apply functions as necessary
-[[ -d $HOME/.conf.git ]] || (echo "Cloning git origin..." && init_gitconfig && "Done." 
-type -p deb-get ||     local depends="git gawk"
-(echo "Installing deb-get from github deb-get.." && inst_debget)
+[[ -d $HOME/.conf.git ]] || (echo "Cloning git origin..." && init_gitconfig && "Done.")
+type -p deb-get || (echo "Installing deb-get from github deb-get.." && inst_debget)
 type -p gh >/dev/null || (echo "Installing gh from githuibcli-archive..." && inst_gh)
 type -p makedeb >/dev/null || (echo "Installing makedeb with deb-get..." && inst_makedeb)
 type -p nvim >/dev/null || (echo "Installing neovim..." && inst_neovim )
 type -p rustc >/dev/null || (echo "Installing rustup script for cargo, rustc, etc..." && inst_rust)
 #type -p wezterm
+type -p starship  >/dev/null || (echo "Installing starship prompt..." && inst_starship && "Done.")

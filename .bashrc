@@ -126,17 +126,18 @@ if [ -f /usr/local/cargo/env ]; then
 fi
 
 ########## Kaisen settings, don't remove please ##########
-
+#
 #Add the $HOME/.krew folder in the PATH
-PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
+#PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+#
 #Use apt full-upgrade instead of apt upgrade (user mode)
-sudo() { if [[ $@ == "apt upgrade" ]]; then command sudo apt full-upgrade; else command sudo "$@"; fi; }
-
+#sudo() { if [[ $@ == "apt upgrade" ]]; then command sudo apt full-upgrade; else command sudo "$@"; fi; }
+#
 #Use apt full-upgrade instead of apt upgrade (root mode)
-apt() { if [[ $@ == "upgrade" ]]; then command apt full-upgrade; else command apt "$@"; fi; }
-
+#apt() { if [[ $@ == "upgrade" ]]; then command apt full-upgrade; else command apt "$@"; fi; }
+#
 ########## Kaisen settings, end ##########
+
 eval 
             __main() {
                 local major="${BASH_VERSINFO[0]}"
@@ -150,4 +151,3 @@ eval
             }
             __main
             unset -f __main
-            
