@@ -2,6 +2,9 @@
 
 set -e
 
+# environmental variables
+CONFIG_GIT='https://github.com/mcladams/deb-dotconf
+
 # Remove all i386 packages from multilib system (optional)
 function rm_i386() {
     if [[ ! $(dpkg --print-foreign-architectures) = *i386* ]]; then
@@ -19,17 +22,14 @@ function apt-update() {
     if [ $(( `date +%s` - `stat -c %Y /var/cache/apt/pkgcache.bin` )) -gt 600 ]; then
         sudo apt update && sudo apt upgrade -y
     fi
-    sudo apt upgrade -y
 }
 
 # Install dependencies not already installed, checking when last apt update
 # https://unix.stackexchange.com/questions/235605/check-if-all-listed-packages-are-installed-in-bash
 function inst_pkgs() {
-    local pkgs="$@"
+    local pkgs=$@
     # apt list returns a line for each architecture if foreign architectures
-    # so filter by our architecture or all to remove
-    local newpkgs=$(apt list $pkgs | grep -e " $(dpkg --print-architecture)" -e ' all' \
-        | grep -e 'installed' -e 'upgradable' -v | grep -E -e '^[^/]*' -o)
+    local newpkgs=$(apt list $pkgs 2>/dev/null | grep -e $(dpkg --print-architecture)$ -e all$ | cut -d/ -f1)
     [ -z "$newpkgs" ] || sudo apt install -y $newpkgs
 }
 
@@ -69,9 +69,11 @@ function inst_gh {
 
 # Install latest Neovim from github using makedeb
 function inst_neovim() {
-    local depends="cmake cmake-data doxygen libclang-cpp14 libclang1-14 libjsoncpp25 \
+    local builddeps="cmake cmake-data doxygen libclang-cpp14 libclang1-14 libjsoncpp25 \
         libllvm14 librhash0 libtool-bin ninja-build"
-    inst_pkgs $depends
+    local rundeps="libc6 liblusjit-5.1-2 libluajit2-5.1-2 libmsgpackc2 libtermkey1 \
+        libtree-sitter0 libunibilium4 libuv1 libvterm0 lua-luv"
+    inst_pkgs "$builddeps $rundeps"
     mkdir -p /usr/local/git/org.makedeb.mpr
     cd /usr/local/git/org.makedeb.mpr
     git clone https://mpr.makedeb.org/neovim
@@ -79,8 +81,14 @@ function inst_neovim() {
     makedeb -si
 }
 
+
 # Install rust via standard rustup script with profile
 function inst_rust() {
+    if [ -f $HOME/.profile.d/cargo-bin-path.sh ]; then
+        source $HOME/.profile.d/cargo-bin-path.sh
+    else
+        export CARGO_HOME=/usr/local/cargo && export RUSTUP_HOME=/usr/local/rustup
+    fi
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 }
 
@@ -89,8 +97,26 @@ function inst_rust() {
 # requires http://ftp.debian.org/debian/pool/main/o/openssl/libssl1.1_1.1.1w-0~deb11u1_amd64.deb
 # from https://github.com/wez/wezterm/releases/latest
 
+# Init new system
+function init_gitconfig() {
+    local depends="git gawk"
+    inst_pkgs $depends
+    sudo usermod -aG adm,dialout,cdrom,sudo,dip,lpadmin $USER
+    sudo chmod -R ug+rwX,o+rX,o-w /usr/local
+    sudo chown -R root:adm /usr/local
+    if [ ! -f $HOME/.conf.git ]; then
+        git clone --bare $CONFIG_GIT $HOME/.conf.git
+        alias conf='git --git-dir=$HOME/.conf.git --work-tree=$HOME'
+        git stash
+        conf restore --staged $(conf status -uno -s | awk '{print $2}')
+        conf restore $(conf status -uno -s | awk '{print $2]')
+    fi
+}
+
 # Apply functions as necessary
-type -p deb-get || (echo "Installing deb-get from github deb-get.." && inst_debget)
+[[ -d $HOME/.conf.git ]] || (echo "Cloning git origin..." && init_gitconfig && "Done." 
+type -p deb-get ||     local depends="git gawk"
+(echo "Installing deb-get from github deb-get.." && inst_debget)
 type -p gh >/dev/null || (echo "Installing gh from githuibcli-archive..." && inst_gh)
 type -p makedeb >/dev/null || (echo "Installing makedeb with deb-get..." && inst_makedeb)
 type -p nvim >/dev/null || (echo "Installing neovim..." && inst_neovim )
