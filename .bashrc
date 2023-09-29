@@ -151,3 +151,5 @@ eval
             }
             __main
             unset -f __main
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+eval "$(atuin init bash)"

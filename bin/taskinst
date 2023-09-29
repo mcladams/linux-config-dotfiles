@@ -92,6 +92,15 @@ function inst_rust() {
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 }
 
+# Install atuin with cargo and setup
+inst_atuin() {
+    cargo install atuin
+    curl https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh \
+        -o ~/.bash-preexec.sh
+    echo '[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh' >> ~/.bashrc
+    echo 'eval "$(atuin init bash)"' >> ~/.bashrc
+}
+
 # Install wezterm
 #function
 # requires http://ftp.debian.org/debian/pool/main/o/openssl/libssl1.1_1.1.1w-0~deb11u1_amd64.deb
