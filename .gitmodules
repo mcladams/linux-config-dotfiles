@@ -1,3 +1,6 @@
 [submodule "git/gh.yutkat.dotfiles"]
 	path = git/gh.yutkat.dotfiles
 	url = https://github.com/yutkat/dotfiles
+[submodule "git/zfs-bash-utils"]
+	path = git/zfs-bash-utils
+	url = https://github.com/mcladams/zfs-bash-utils
