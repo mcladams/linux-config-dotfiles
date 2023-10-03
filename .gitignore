@@ -39,3 +39,12 @@ Videos/
 .pki/
 .xfce4-session.*
 .xsession-errors
+.config/GIMP/
+.config/Qlipper/
+.config/autostart/
+.config/cmst/
+.config/xfce4/
+.config/xkbfirstrun
+.dmrc
+.hushlogin
+.mozilla/
