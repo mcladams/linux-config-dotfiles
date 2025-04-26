@@ -44,16 +44,6 @@ pkg_sizes() {
 # search for packages with residual-config and purge
 alias apt-rmconf='apt update; apt-get remove --autoremove --purge $(for l in {a..z}; do apt list $l* 2>/dev/null | grep -E -e "\[residual\-config\]" | grep -E -e "^[^/]+" -o; done)'
 
-####TODO display all reverse depends of all manually installed pkgs
-#finalrdeps() {
-#    maninstalls=$(apt-mark showmanual | sort | uniq)
-#    for pkg in $maninstalls; do
-#        uniqs=$(apt-cache rdepends --no-recommends --no-suggests --no-enhances $pkg | egrep -e '^[ ][ |]' | sed 's/[ ][ |]//g' | sort | uniq)
-#        if [ -z $uniqs ]; then echo $pkg >> nordeps.list; fi
-#        dpkg-query -l $uniqs | egrep -e '^ii' | awk '{ print $2 }' >> allrdeps.list
-#    done
-#}
-
 #### apt
 alias rdeps='apt-cache rdepends --no-recommends --no-suggests --no-enhances --no-breaks --no-replaces'
 alias deps='apt-cache depends --no-recommends --no-suggests --no-enhances --no-breaks --no-replaces'
@@ -88,10 +78,6 @@ wol() {
     esac
 }
 
-
-####TODO restart all enabled dead units (useful after awakint)
-#for unit in $(systemctl list-units $(systemctl list-unit-files --state=enabled | awk "{ print $1 }") \
-# | grep -e dead -e failed | awk "{ print $1 }" ) ; do systemctl restart $unit; done
 
 #### disk usage ####
 alias du1='du -cxhd1'
@@ -459,16 +445,36 @@ underscore() {
     done
 }
 
-# deb http://au.archive.ubuntu.com/ubuntu/ kinetic main universe
-# deb http://security.ubuntu.com/ubuntu kinetic-security main universe
-
-# apt install --no-install-recommends ubuntu-desktop ubuntu-standard \
-# ubuntu-desktop-minimal ubuntu-minimal baobab branding-ubuntu deja-dup ]
-# gnome-calendar shotwell simple-scan totem transmission-gtk usb-creator-gtk 
-# gnome-disk-utility gparted gnome-shell gnome-control-center systemd \
-# systemd-sysv systemd-oomd systemd-container zfsutils-linux zfs-zed \
-# grub-efi-amd64 grub-pc-bin
-
-alias zsnap_large='zfs list -o used,name -t snapshot | sort -h | tail' 
+alias zsnap_large='zfs list -o used,name -t snapshot | sort -h | tail'
 alias conf='/usr/bin/git --git-dir=$HOME/.conf.git --work-tree=$HOME'
-alias conf='git --git-dir=$HOME/.conf.git --work-tree=$HOME'
+
+# ~/.bash_aliases or ~/.bashrc
+# Unlock the GNOME login keyring manually from shell
+
+unlock-keyring() {
+    local SCRIPT_PATH="$HOME/bin/unlock.py"
+
+    if [[ ! -x "$SCRIPT_PATH" ]]; then
+        echo "Error: $SCRIPT_PATH not found or not executable."
+        return 1
+    fi
+
+    if ! pgrep -u "$USER" gnome-keyring-daemon > /dev/null; then
+        echo "Warning: gnome-keyring-daemon does not appear to be running." >&2
+    fi
+
+    echo -n "Enter keyring password: "
+    read -rs KEYRING_PASSWORD
+    echo
+
+    echo "$KEYRING_PASSWORD" | "$SCRIPT_PATH"
+    local status=$?
+
+    if [[ $status -eq 0 ]]; then
+        echo "✅ Keyring unlocked successfully."
+    else
+        echo "❌ Failed to unlock keyring. Check password or session state."
+    fi
+
+    unset KEYRING_PASSWORD
+}

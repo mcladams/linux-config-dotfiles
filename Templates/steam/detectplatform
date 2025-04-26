@@ -1,0 +1,6 @@
+function detect_platform()
+{
+	# Maybe be smarter someday
+	# Right now this is the only platform we have a bootstrap for, so hard-code it.
+	echo ubuntu12_32
+}

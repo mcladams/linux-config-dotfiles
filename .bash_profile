@@ -6,3 +6,5 @@ if [ -f ~/.bashrc ]; then
 fi
 
 # User specific environment and startup programs
+
+source /home/mike/.config/broot/launcher/bash/br

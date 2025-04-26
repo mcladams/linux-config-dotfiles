@@ -115,3 +115,5 @@ sudo() { if [[ $@ == "apt upgrade" ]]; then command sudo apt full-upgrade; else 
 apt() { if [[ $@ == "upgrade" ]]; then command apt full-upgrade; else command apt "$@"; fi; }
 
 ########## Kaisen settings, end ##########
+
+source /home/mike/.config/broot/launcher/bash/br

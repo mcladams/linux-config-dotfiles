@@ -1,0 +1,1 @@
+zpool create -o compatibility=openzfs-2.2 -o ashift=12 -o autotrim=on -o cachefile=/mnt/c/zpool.cache -O acltype=posix -O atime=off -O camount=off -O compression=lz4 -O dnodesize=auto -O xattr=sa -O overlay=off -O casesensitivity=insensitive -O normalization=formD wslool /dev/sdm

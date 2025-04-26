@@ -1,0 +1,35 @@
+#!/bin/bash
+#zfs-makeconf - cut from zfs srctree configure script
+
+
+# Installation directory options.
+# These are left unexpanded so users can "make install exec_prefix=/foo"
+# and all the variables that are supposed to be based on exec_prefix
+# by default will actually change.
+# Use braces instead of parens because sh, perl, etc. also accept them.
+# (The list follows the same order as the GNU Coding Standards.)
+
+#gnu_install_dirs() {
+#exec_prefix=$1
+
+bindir='${exec_prefix}/bin'
+sbindir='${exec_prefix}/sbin'
+libexecdir='${exec_prefix}/libexec'
+datarootdir='${prefix}/share'
+datadir='${datarootdir}'
+sysconfdir='${prefix}/etc'
+sharedstatedir='${prefix}/com'
+localstatedir='${prefix}/var'
+runstatedir='${localstatedir}/run'
+includedir='${prefix}/include'
+oldincludedir='/usr/include'
+docdir='${datarootdir}/doc/${PACKAGE_TARNAME}'
+infodir='${datarootdir}/info'
+htmldir='${docdir}'
+dvidir='${docdir}'
+pdfdir='${docdir}'
+psdir='${docdir}'
+libdir='${exec_prefix}/lib'
+localedir='${datarootdir}/locale'
+mandir='${datarootdir}/man'
+#}

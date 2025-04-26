@@ -1,0 +1,14 @@
+__https://github.com/kirillkovalenko/nssm__ isn't mainting his copy the eldest one, there are two unmerged pull requests, and many forks with many individual changes. In summary going back in time throught the forks
+__https://github.com/tomek7767/nssm__ hasn't even made a pull request to the original kirillkovalenko clone, but made a commit and release _one month ago_.
+__https://github.com/EvATive7Cloud/nssm__ forked and made 2 commits most recently _5 months ago_ , no pull requests
+__https://github.com/outotec/nssm__ forked and has made 6 commits most recently _2 years ago_ , no pull requests
+__https://github.com/Nesquick0/nssm__ forked and made 2 commits and new visual studio project files most recently _2 years ago_ no PRs
+__https://github.com/zatkhahi/ServiceManager__ 25 commits most recent _2 years ago_ no PRs
+__https://github.com/mrulke/nssm__ 2 commits _3 years ago_ no PRs
+__https://github.com/gatorliu/nssm__ 1 commit new file "scorecards.yml" i don't really understand the point of , no PRs _4 years ago_
+__https://github.com/cool-RR/nssm__ forked kirill and created a branch named "Patch 1" for pull request #24 _5 years ago_
+__https://github.com/wellbay/nssm__ forked 10 commits, got 3 stars from othes, _5 years ago_ no PRs
+__https://github.com/iERP-ai/nssm__ 10 commits many changes, _6 years ago_
+__https://github.com/polariseye/nssm__ 7 years ago 8000 changes in 3 commits
+__https://github.com/pvspain/nssm__ 7 years ago 800 changes
+__https://github.com/alongL/nssm-2.24-MOD__ with open pull request #20 from 2018 has created a new repo not linked to the old at https://github.com/alongL/nssm-2.24-MOD

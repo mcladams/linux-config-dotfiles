@@ -138,18 +138,22 @@ fi
 #
 ########## Kaisen settings, end ##########
 
-eval 
-            __main() {
-                local major="${BASH_VERSINFO[0]}"
-                local minor="${BASH_VERSINFO[1]}"
+#    __main() {
+#        local major="${BASH_VERSINFO[0]}"
+#        local minor="${BASH_VERSINFO[1]}"
+#        if ((major > 4)) || { ((major == 4)) && ((minor >= 1)); }; then
+#            source <(/usr/local/bin/starship init bash --print-full-init)
+#        else
+#            source /dev/stdin <<<"$(/usr/local/bin/starship init bash --print-full-init)"
+#        fi
+#    }
+#
+#    __main
+#    unset -f __main
 
-                if ((major > 4)) || { ((major == 4)) && ((minor >= 1)); }; then
-                    source <(/usr/local/bin/starship init bash --print-full-init)
-                else
-                    source /dev/stdin <<<"$(/usr/local/bin/starship init bash --print-full-init)"
-                fi
-            }
-            __main
-            unset -f __main
-[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-eval "$(atuin init bash)"
+#[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+
+#eval "$(atuin init bash)"
+
+source /home/mike/.config/broot/launcher/bash/br
+alias upg='sudo apt update && sudo apt upgrade -y && sudo apt autoremove && sudo apt autoclean'

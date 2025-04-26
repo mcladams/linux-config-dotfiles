@@ -1,0 +1,14 @@
+https://github.com/kirillkovalenko/nssm
+https://github.com/tomek7767/nssm
+https://github.com/EvATive7Cloud/nssm
+https://github.com/outotec/nssm
+https://github.com/Nesquick0/nssm
+https://github.com/zatkhahi/ServiceManager
+https://github.com/mrulke/nssm
+https://github.com/gatorliu/nssm
+https://github.com/cool-RR/nssm
+https://github.com/wellbay/nssm
+https://github.com/iERP-ai/nssm
+https://github.com/polariseye/nssm
+https://github.com/pvspain/nssm
+https://github.com/alongL/nssm-2.24-MOD
