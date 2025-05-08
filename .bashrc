@@ -157,3 +157,9 @@ fi
 
 source /home/mike/.config/broot/launcher/bash/br
 alias upg='sudo apt update && sudo apt upgrade -y && sudo apt autoremove && sudo apt autoclean'
+# Check for interactive bash
+if [ -n "${BASH_VERSION-}" ]; then
+    if [ -f ~/.bash_aliases ]; then
+        . ~/.bash_aliases
+    fi
+fi

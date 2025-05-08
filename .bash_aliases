@@ -26,62 +26,6 @@ alias ll='ls -Al'
 alias la='ls -A'
 alias l='ls -CF'
 
-
-# TO DO ONLY APPLY APT TO DEB SYSTEMS
-#### apt maintenance
-#alias upg='apt update && apt upgrade -y && apt autoremove -y && apt autoclean'
-#alias upgf='apt update && apt upgrade -y && apt full-upgrade -y && apt autoremove -y && apt autoclean'
-#alias apt-nir='apt install --no-install-recommends'
-#alias apt-arp='apt remove --autoremove --purge'
-#apt_lsi() { apt list $@ | egrep -e '\[.*\]'; }
-#apt_lsi1() { apt list $@ | egrep -e '\[.*\]' | egrep -e '^[^/]+' -o; }
-#apt_lsn() { apt list $@ | egrep -e '\[.*\]' -v; }
-#apt_lsn1() { apt list $@ | egrep -e '\[.*\]' -v | egrep -e '^[^/]+' -o; }
-#
-#alias rdeps='apt-cache rdepends --no-recommends --no-suggests --no-enhances --no-breaks --no-replaces'
-#alias deps='apt-cache depends --no-recommends --no-suggests --no-enhances --no-breaks --no-replaces'
-# versions with recommends; some metapackages use recommends
-#alias rdepr='apt-cache rdepends --no-suggests --no-enhances --no-breaks --no-replaces'
-#alias depr='apt-cache depends --no-suggests --no-enhances --no-breaks --no-replaces'
-#
-# sort a list of installed packages by size, or all installed packages with no passed parameter
-#pkg_sizes() {
-#    dpkg-query -Wf '${Installed-Size}\t${Package}\n' "$@" | sort -n
-#}
-#
-# search for packages with residual-config and purge
-#alias apt-rmconf='apt update; apt-get remove --autoremove --purge $(for l in {a..z}; do apt list $l* 2>/dev/null | grep -E -e "\[residual\-config\]" | grep -E -e "^[^/]+" -o; done)'
-#
-################### END APT
-
-wol() {
-    #definition of MAC addresses
-    pve10_tower="50:e5:49:e9:04:66"
-    pve20_arrow="e0:69:95:3b:c4:3e"
-    pve30_a515="98:28:a6:1a:90:7a"
-    pve40_pb470="dc:4a:3e:f0:1e:af"
-    pve50_gamer="d8:50:e6:57:a3:51"
-
-    echo "Which PC to wake?"
-    echo "  1) pve10-tower    $pve10_tower    192.168.20.10"
-    echo "  2) pve20-arrow    $pve20_arrow    192.168.20.20"
-    echo "  3) pve30-a515     $pve30_a515     192.168.20.30"
-    echo "  4) pve40-pb470    $pve40_pb470    192.168.20.40"
-    echo "  5) pve50-gamer    $pve50_gamer    192.168.20.50"
-    echo "  6) oldpro"
-    echo "  7) dellbox"
-    read -n1 input1
-    case $input1 in
-        (1) /usr/bin/wakeonlan $pve10_tower ;;
-        (2) /usr/bin/wakeonlan $pve20_arrow ;;
-        (3) /usr/bin/wakeonlan $pve30_a515 ;;
-        (4) /usr/bin/wakeonlan $pve40_pb470 ;;
-        (5) /usr/bin/wakeonlan $pve50_gamer ;;
-        (Q|q) break ;;
-    esac
-}
-
-
 #### disk usage ####
 alias du1='du -cxhd1'
 alias du5='du -cxhd1 --all -t20M'
@@ -124,7 +68,6 @@ pname_abs() {
 }
 
 #### rsync ####
-
 rs_cp() {
 # copy-overwrite dest if different regardless
     rsync -hh --info=stats1,progress2 --modify-window=2 -aHAX "$@"
@@ -135,7 +78,7 @@ rs_up() {
     rsync -hh --info=stats1,progress2 --modify-window=2 -aHAX --update "$@"
 }
 
-rs_cl() {
+rs_mir() {
 # copy-clone by removing extra dest files
     rsync -hh --info=stats1,progress2 --modify-window=2 -aHAX --delete "$@"
 }
@@ -178,44 +121,6 @@ deb2xz() {
     echo "Done. Original debs move to /tmp"
 }
 
-mnt() {
-    mtpoint=$(eval echo '$'$#)
-#    realmp=$(realpath -m $mtpoint)
-    if [ ! -a $mtpoint ]; then
-        mkdir -p $mtpoint
-        mount "$@"
-        return
-    elif [ ! -d "$mtpoint" ]; then
-        echo "Mointpoint is not a directory, not mounting $@"
-        return 1
-    else
-#        if grep -q " $realmp" <<< $(cat /proc/self/mounts); then
-#            mtdevs=$(cat /proc/self/mounts | grep " $realmp" | awk '{ print $1 }')
-#            echo -n "$mtdevs already mounted at $realmp, overlay? :"
-#            read -n1 input1
-#            echo
-#            if [[ $input1 =~ ^[Yy]$ ]]; then
-#                mount "$@"
-#                return
-#            else
-#                echo "Did not mount $@"
-#                return 1
-#            fi
-#        elif [ "$(ls -A1 $mtpoint)" ]; then
-#            read -p "Directory $mtpoint is not empty, overlay? :" -n1 input2
-#            echo
-#            if [[ $input2 =~ ^[Yy]$ ]]; then
-#                mount "$@"
-#                return
-#            else
-#                echo "Did not mount $@"
-#                return
-#            fi
-#        else
-            mount "$@"
-#        fi
-    fi
-}
 
 mnta() {
     for arg in $@; do
@@ -257,188 +162,6 @@ zlsz() {
     zfs get $recurs -o name,property,value -t $type all "$@" | egrep -e 'com\.ubuntu\.zsys'
 }
 
-#### zfs list/get properties from name
-alias zg_t='zfs list -H -o type'
-alias zg_mt='zfs list -H -o mounted'
-alias zg_mp='zfs list -H -o mountpoint'
-alias zg_cm='zfs list -H -o canmount'
-
-alias zm='mount -t zfs -o zfsutil'
-alias zu='umount -t zfs'
-
-# mount all canmount=noauto mounts
-zm_na () 
-{ 
-    for d in $(zfs list -Ho name,canmount -r $@ | grep noauto | awk '{ print $1 }');
-    do
-        zfs mount $d;
-    done
-}
-
-# mount all canmount=noauto mounts and change to canmount=on
-zm_na_on () 
-{ 
-    for d in $(zfs list -Ho name,canmount -r $@ | grep noauto | awk '{ print $1 }');
-    do
-        zfs set canmount=on $d;
-        zfs mount $d;
-    done
-}
-
-# mount all canmount=on mounts and change to noauto
-zm_on_na () 
-{ 
-    for d in $(zfs list -Ho name,canmount -r $@ | grep -E -e 'on$' | awk '{ print $1 }');
-    do
-        zfs set canmount=noauto $d;
-        zfs mount $d;
-    done
-}
-
-# unmount all currently mounted
-zu_mt () 
-{ 
-    zmnts=$(zfs mount)
-    for d in $(zfs list -Ho name,mounted -r $@ | grep -E -e 'yes$' | awk '{ print $1 }');
-    do
-        mtpt=$(echo "$zmnts" | grep "$d " | awk '{ print $2 }');
-        umount -lf $mtpt;
-    done
-}
-
-# unmount all currently mounted and set canmount noauto
-zu_mt_na () 
-{ 
-    zmnts=$(zfs mount)
-    for d in $(zfs list -Ho name,mounted -r $@ | grep -E -e 'yes$' | awk '{ print $1 }');
-    do
-        zfs set canmount=noauto $d;
-        mtpt=$(echo "$zmnts" | grep "$d " | awk '{ print $2 }');
-        umount -lf $mtpt;
-    done
-}
-
-
-
-# create zfs-list.cache file $1=pool $2=save location
-zls_gen () 
-{ 
-    zfs list -Ho name,mountpoint,canmount,atime,relatime,devices,exec,readonly,setuid,nbmand,encroot,keylocation,org.openzfs.systemd:requires,org.openzfs.systemd:requires-mounts-for,org.openzfs.systemd:before,org.openzfs.systemd:after,org.openzfs.systemd:wanted-by,org.openzfs.systemd:required-by,org.openzfs.systemd:nofail,org.openzfs.systemd:ignore \
-     -r $1 > "$2"
-}
-
-
-
-zmt() {
-    fs=$1
-    mp=$2
-    if [ ! -d "$mp" ]; then
-        mkdir -p $mp
-    elif [ "$(cat /proc/self/mounts | grep $mp )" ]; then
-        echo "Error: another device or filesystem is already mounted on $mp"
-        return
-    elif [ ! "$(find $mp -maxdepth 0 -empty)" ]; then
-        echo "Error: $mp exists and is not empty, not mounting"
-        return
-    fi
-    if [ "$(zg_cm $fs)" = "off" ]; then
-        echo "Note $fs has canmount=off so not mounted represented by empty directory $mp"
-        return
-    fi
-#    zfs snapshot $fs@zmnt-$mp_`date -Iminutes | sed 's/+08:00//'`
-    if [ "$(zg_t $fs)" = "snapshot" ] || [ "$(zg_mp $fs)" = "legacy" ]; then
-        mount -t zfs $fs $mp
-    else
-        mount -o zfsutil -t zfs $fs $mp
-    fi
-    echo mounted $fs on $mp
-}
-
-# mount -t zfs [-o zfsutil] datasets [recursively] to their name under a root directory
-zma() {
-    if [ "$1" = "-R" ]; then
-        local rooty="$2"
-        shift 2
-#    else
-#        rooty="/z"
-    fi
-    fss=$(zfs list -H -o name "$@")
-    for fs in $fss; do
-        if [ $rooty ]; then
-            mpz=$rooty$(zg_mp $fs)
-        else
-            mpz=$rooty/$fs
-        fi
-        if [ ! "$(cat /proc/self/mounts | egrep -e $mpz)" = "" ]; then
-            echo "Mount point $mpz used, not mounting $fs"
-            continue
-        fi
-        if [ ! -d $mpz ]; then
-            mkdir -p $mpz
-        fi
-        # new - mounting of canmount=off spacer datasets creates big trouble
-        if [ "$(zfs list -H -o canmount $fs)" = "off" ]; then
-            echo "Not mounting $fs with canmount=off but $mpz created if not exist"
-            continue
-        fi
-        if [ "$(zfs list -H -o mountpoint $fs)" = "legacy" ]; then
-            mount -t zfs $fs $mpz
-        else
-            mount -t zfs -o zfsutil $fs $mpz
-        fi
-        echo "Mounted $fs on $mpz"
-    done
-}
-
-# umount -t zfs datasets [recursively] with force and remove mountpoints
-zua() {
-    fss=$(zfs list -H -o name $@ | tac)
-    # reverses output so unmount in order
-    for fs in $fss; do
-        mpz=$(zfs list -H -o mountpoint $fs)
-        umount -t zfs $fs 2>/dev/null
-        umount $mpz 2>/dev/null
-        umount -lf $mpz
-        if [ $(zfs mount | grep "$fss " -o) ]; then
-            echo "Error: $fs did NOT unmount from $mpz"
-        elif [ "$(ls -A1 $mpz)" ]; then
-            echo "Unmounted $fs; $mpz not empty so not removed"
-        else
-            rm -r $mpz
-            echo "Unmounted $fs and removed $mpz"
-        fi
-    done
-}
-
-# mount ubuntu zfs / zsys datasets style
-zmaz() {
-# zfsutil mount rpool/ROOT/foo recurs, and USERDATA/foo BOOT/foo
-    if [ "$1" = "-R" ]; then
-        altr="$2"
-        shift 2
-    else
-        altr="/z"
-    fi
-    dist="$1"
-    zroot=rpool/ROOT/$dist
-    eval zma -R $altr -r rpool/ROOT/$dist
-    eval zmt bpool/BOOT/$dist $altr/$zroot/boot
-    eval zmt rpool/USERDATA/$dist $altr/$zroot/home
-}
-
-#### take a manual zfs snap of mounted datasets
-zsnap() {
-    dstamp=$(date -Iminutes | sed 's/+08:00//')
-    if [ "$1" ]; then
-        nom="$1-$dstamp"
-    else
-        nom="manual-$dstamp"
-    fi
-    dss=$(zfs mount | awk '{ print $1 }')
-    for ds in $dss; do
-        zfs snapshot $ds@$nom
-    done
-}
 
 #### repace spaces with underscore ####
 underscore() {
@@ -481,3 +204,4 @@ unlock-keyring() {
 
     unset KEYRING_PASSWORD
 }
+alias cps='cp -a --reflink=auto --backup=simple --update=older'

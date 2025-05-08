@@ -25,3 +25,12 @@ twrp_default.xml
 .vscode-server/
 Downloads/
 twrp-default.xml
+.config/*
+.pki/
+.steam*
+*.orig
+Templates/*
+.mozilla/
+go/
+.kodi/
+Documents/code/
