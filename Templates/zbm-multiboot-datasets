@@ -1,0 +1,22 @@
+PARKED.
+
+I believe multi-distros on root-on-zfs with zfs boot environments are a valuable and convient alternative to traditional multi-boot distro-to-a-partition systems **and** also VMs. Devlopment, testing, or just different use cases can take place sharing the advantages of zfs backed storage and no-cost, instant disposable clones. 
+
+*FreeBSD blazed a trail with root on zfs and __boot environments__*
+*ZFS Boot Menu opened up unexplored possibities with __KExec__*
+*Strangely WSL - answered an unasked question - __one common kernel to rule all distros__*
+
+Just today I think i have the final puzzle in what i've been heading for. Follow and strengthen my thesis with examples and references where possible. 
+
+(Order is not so important, numbering so I can refer back)
+
+(P.1) Linux kernels are built for a specific architechture and API environment (versions of system library suites that are compatible). When building a linux kernel, the build distribution and the target distribution are of lesser importance. (how true is this?)
+
+(P.2) Distributions can be booted with the vanilla mainline kernel, and in the linux world, most any other distributions kernel, provided they are built with comptable build options (CONFIGs). 
+- something about convergence and kernel design - ubuntu studio no long builds its own real-time kernel as the generic can... do what and why?
+
+(P.3) WSL demonstrates that for a common environment, mutliple different distributions can be run with the same kernel and kernel modules. We already know this from KVM of course which does similar (expand). WSL also popularises the container based, pull (or locally clone) disposable system.
+
+(P.4) sideline: compare & contrast the architecture, access to hardware, modes of operation and capabilites of WSL vs Xen vs KVM where they are used for running multiple distributions under with one config/management host system, and various levels of abstraction / emulation / resource-sharing.  The host styem being respectively Windows /  the Dom0 OS with Xen-kernel  / KVM Linux host with appropriate kernel-config)
+
+(P.5) ZFS Boot Menu uses a minimal kernel to create the ZFS filesystem hierarchy at boot, then Kexec launches the distro kernel in the same environment. In theory, the bootged  
