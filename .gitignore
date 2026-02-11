@@ -26,6 +26,7 @@ twrp_default.xml
 Downloads/
 twrp-default.xml
 .config/*
+!.config/atuin
 .pki/
 .steam*
 *.orig
@@ -34,3 +35,8 @@ Templates/*
 go/
 .kodi/
 Documents/code/
+.config/dconf/*
+.Xauthority
+*.deb
+.linuxmint/mintupdate/updates.json
+Pictures/

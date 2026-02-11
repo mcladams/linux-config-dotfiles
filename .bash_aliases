@@ -31,10 +31,7 @@ alias du1='du -cxhd1'
 alias du5='du -cxhd1 --all -t20M'
 
 #### other aliases
-alias lsb='lsblk -o name,size,type,partlabel,fstype,label,mountpoint'
-alias lsbu='lsblk -o name,size,fstype,label,uuid,mountpoint'
-alias lsbp='lsblk -o name,size,fstype,label,partuuid,mountpoint'
-alias lsbup='lsblk -o name,size,fstype,label,uuid,kname,type,partuuid'
+alias lsbo='lsblk -o name,size,type,fstype,label,partlabel,uuid,partuuid,mountpoints'
 
 #### general functions
 # list user functions defined
@@ -89,7 +86,7 @@ rs_mv() {
 }
 
 #rs_sys { #full system filesystem backup
-#
+alias rsyncos='rsync -haHAX --info=stats1,progress2 --modify-window=2 --exclude={"/dev/*","/proc/*","/sys/*","/run/*","/mnt/*","/media/*","/z*","/lost+found","/tmp/*","/cdrom","/boot/efi","/efi"}'
 #
 
 #### apt,dpkg,etc ####
@@ -140,7 +137,7 @@ mnta() {
 
 #### zfs list,mount,move ####
 
-alias zls='zfs list -o name,used,referenced,canmount,mounted,mountpoint'
+alias zls='zfs list -o name,used,acltype,atime,overlay,canmount,mounted,mountpoint'
 
 zlsm() {
 # zfs list mount - list datasets with canmount=on and/or currently mounted
@@ -204,4 +201,5 @@ unlock-keyring() {
 
     unset KEYRING_PASSWORD
 }
+
 alias cps='cp -a --reflink=auto --backup=simple --update=older'

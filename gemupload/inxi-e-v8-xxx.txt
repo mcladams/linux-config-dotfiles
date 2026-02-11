@@ -1,0 +1,245 @@
+System:
+  Host: T490 Kernel: 6.18.0-9-generic arch: x86_64 bits: 64 compiler: gcc
+    v: 15.2.0 clocksource: tsc avail: acpi_pm
+    parameters: BOOT_IMAGE=/boot/vmlinuz-6.18.0-9-generic
+    root=UUID=1bbde004-81a0-418d-b47e-a62db71aa697 ro quiet splash
+  Desktop: GNOME v: 48.7 tk: GTK v: 3.24.49 wm: gnome-shell
+    tools: gsd-screensaver-proxy avail: cinnamon-screensaver dm: GDM3 v: 48.0
+    Distro: LMDE 7 Gigi base: Debian 13.0 trixie
+Machine:
+  Type: Laptop System: LENOVO product: 20N2S01900 v: ThinkPad T490
+    serial: PF1JW0HM Chassis: type: 10 serial: PF1JW0HM
+  Mobo: LENOVO model: 20N2S01900 v: SDK0J40697 WIN serial: L1HF96L0408
+    part-nu: LENOVO_MT_20N2_BU_Think_FM_ThinkPad T490
+    uuid: 37a9f5cc-31ae-11b2-a85c-a147bad7ec09 UEFI: LENOVO
+    v: N2IETA6W (1.84 ) date: 07/03/2025
+Battery:
+  ID-1: BAT0 charge: 39.4 Wh (98.0%) condition: 40.2/50.5 Wh (79.7%)
+    volts: 12.8 min: 11.6 model: LGC 5B10W13905 type: Li-poly serial: 745
+    status: not charging cycles: 194
+Memory:
+  System RAM: total: 16 GiB available: 15.4 GiB used: 3.25 GiB (21.1%)
+    igpu: 64 MiB
+  Array-1: capacity: 16 GiB slots: 2 modules: 2 EC: None
+    max-module-size: 8 GiB note: est.
+  Device-1: ChannelA-DIMM0 type: DDR4 detail: synchronous size: 8 GiB speed:
+    spec: 2667 MT/s actual: 2400 MT/s volts: curr: 1.2 width (bits): data: 64
+    total: 64 manufacturer: Samsung part-no: M471A1K43BB1-CTD serial: N/A
+  Device-2: ChannelB-DIMM0 type: DDR4 detail: synchronous size: 8 GiB speed:
+    spec: 3200 MT/s actual: 2400 MT/s volts: curr: 1.2 width (bits): data: 64
+    total: 64 manufacturer: Samsung part-no: M471A1G44BB0-CWE serial: 3227BA5F
+PCI Slots:
+  Slot: N/A type: MediaCard status: available length: other bus-ID: 00:00.0
+  Slot: N/A type: N/A status: available length: other bus-ID: 00:00.0
+CPU:
+  Info: model: Intel Core i5-8265U socket: BGA1528 (U3E1) note: check bits: 64
+    type: MT MCP arch: Comet/Whiskey Lake note: check gen: core 8 level: v3
+    note: check built: 2018 process: Intel 14nm family: 6 model-id: 0x8E (142)
+    stepping: 0xC (12) microcode: 0x100
+  Topology: cpus: 1x dies: 1 clusters: 4 cores: 4 threads: 8 tpc: 2
+    smt: enabled cache: L1: 256 KiB desc: d-4x32 KiB; i-4x32 KiB L2: 1024 KiB
+    desc: 4x256 KiB L3: 6 MiB desc: 1x6 MiB
+  Speed (MHz): avg: 900 min/max: 400/3900 base/boost: 1600/1800 scaling:
+    driver: intel_pstate governor: powersave volts: 0.7 V ext-clock: 100 MHz
+    cores: 1: 900 2: 900 3: 900 4: 900 5: 900 6: 900 7: 900 8: 900
+    bogomips: 28800
+  Flags: 3dnowprefetch abm acpi adx aes aperfmperf apic arat
+    arch_capabilities arch_perfmon art avx avx2 bmi1 bmi2 bts clflush
+    clflushopt cmov constant_tsc cpuid cpuid_fault cx16 cx8 de ds_cpl dtes64
+    dtherm dts epb ept ept_ad erms est f16c flexpriority flush_l1d fma fpu
+    fsgsbase fxsr ht hwp hwp_act_window hwp_epp hwp_notify ibpb ibrs
+    ibrs_enhanced ida intel_pt invpcid lahf_lm lm mca mce md_clear mmx
+    monitor movbe mpx msr mtrr nonstop_tsc nopl nx pae pat pbe pcid pclmulqdq
+    pdcm pdpe1gb pebs pge pln pni popcnt pse pse36 pts rdrand rdseed rdtscp
+    rep_good sdbg sep smap smep ss ssbd sse sse2 sse4_1 sse4_2 ssse3 stibp
+    syscall tm tm2 tpr_shadow tsc tsc_adjust tsc_deadline_timer vme vmx vnmi
+    vpid x2apic xgetbv1 xsave xsavec xsaveopt xsaves xtopology xtpr
+  Vulnerabilities:
+  Type: gather_data_sampling status: Vulnerable
+  Type: ghostwrite status: Not affected
+  Type: indirect_target_selection mitigation: Aligned branch/return thunks
+  Type: itlb_multihit status: KVM: Split huge pages
+  Type: l1tf status: Not affected
+  Type: mds status: Not affected
+  Type: meltdown status: Not affected
+  Type: mmio_stale_data mitigation: Clear CPU buffers; SMT vulnerable
+  Type: old_microcode status: Not affected
+  Type: reg_file_data_sampling status: Not affected
+  Type: retbleed mitigation: Enhanced IBRS
+  Type: spec_rstack_overflow status: Not affected
+  Type: spec_store_bypass mitigation: Speculative Store Bypass disabled via
+    prctl
+  Type: spectre_v1 mitigation: usercopy/swapgs barriers and __user pointer
+    sanitization
+  Type: spectre_v2 mitigation: Enhanced / Automatic IBRS; IBPB:
+    conditional; PBRSB-eIBRS: SW sequence; BHI: SW loop, KVM: SW loop
+  Type: srbds mitigation: Microcode
+  Type: tsa status: Not affected
+  Type: tsx_async_abort status: Not affected
+  Type: vmscape mitigation: IBPB before exit to userspace
+Graphics:
+  Device-1: Intel WhiskeyLake-U GT2 [UHD Graphics 620] vendor: Lenovo
+    driver: i915 v: kernel arch: Gen-9.5 process: Intel 14nm built: 2016-20
+    ports: active: eDP-1 empty: DP-1, DP-2, HDMI-A-1, HDMI-A-2 bus-ID: 00:02.0
+    chip-ID: 8086:3ea0 class-ID: 0300
+  Device-2: Chicony Integrated Camera (1280x720@30) driver: uvcvideo
+    type: USB rev: 2.0 speed: 480 Mb/s lanes: 1 mode: 2.0 bus-ID: 1-8:4
+    chip-ID: 04f2:b604 class-ID: 0e02 serial: 0001
+  Display: unspecified server: X.Org v: 1.24.1.6 with: Xwayland v: 24.1.6
+    compositor: gnome-shell driver: X: loaded: modesetting unloaded: fbdev,vesa
+    dri: iris gpu: i915 display-ID: :0 screens: 1
+  Screen-1: 0 s-res: 3072x1728 s-dpi: 96 s-size: 813x457mm (32.01x17.99")
+    s-diag: 933mm (36.72")
+  Monitor-1: eDP-1 model: ChiMei InnoLux 0x14d4 built: 2016 res:
+    mode: 3072x1728 hz: 60 scale: 100% (1) dpi: 252 gamma: 1.2 chroma: red:
+    x: 0.592 y: 0.349 green: x: 0.329 y: 0.557 blue: x: 0.153 y: 0.118 white:
+    x: 0.314 y: 0.329 size: 310x170mm (12.2x6.69") diag: 354mm (13.9")
+    ratio: 16:9 modes: 1920x1080
+  API: EGL v: 1.5 hw: drv: intel iris platforms: device: 0 drv: iris
+    device: 1 drv: swrast gbm: drv: iris surfaceless: drv: iris x11: drv: iris
+    inactive: wayland
+  API: OpenGL v: 4.6 compat-v: 4.5 vendor: intel mesa v: 25.0.7-2 glx-v: 1.4
+    direct-render: yes renderer: Mesa Intel UHD Graphics 620 (WHL GT2)
+    device-ID: 8086:3ea0 memory: 7.52 GiB unified: yes
+  API: Vulkan v: 1.4.309 layers: 3 device: 0 type: integrated-gpu name: Intel
+    UHD Graphics 620 (WHL GT2) driver: mesa intel v: 25.0.7-2
+    device-ID: 8086:3ea0 surfaces: xcb,xlib device: 1 type: cpu name: llvmpipe
+    (LLVM 19.1.7 256 bits) driver: mesa llvmpipe v: 25.0.7-2 (LLVM 19.1.7)
+    device-ID: 10005:0000 surfaces: xcb,xlib
+  Info: Tools: api: eglinfo, glxinfo, vulkaninfo x11: xdriinfo, xdpyinfo,
+    xprop, xrandr
+Audio:
+  Device-1: Intel Cannon Point-LP High Definition Audio vendor: Lenovo
+    driver: snd_hda_intel v: kernel alternate: snd_soc_avs,snd_sof_pci_intel_cnl
+    bus-ID: 00:1f.3 chip-ID: 8086:9dc8 class-ID: 0403
+  API: ALSA v: k6.18.0-9-generic status: kernel-api
+    tools: alsactl,alsamixer,amixer
+  Server-1: PipeWire v: 1.4.2 status: n/a (root, process) with:
+    1: pipewire-pulse status: active 2: wireplumber status: active
+    3: pipewire-alsa type: plugin tools: pactl,pw-cat,pw-cli,wpctl
+Network:
+  Device-1: Intel Cannon Point-LP CNVi [Wireless-AC] driver: iwlwifi v: kernel
+    bus-ID: 00:14.3 chip-ID: 8086:9df0 class-ID: 0280
+  IF: wlp0s20f3 state: up mac: 3c:f0:11:7a:b1:92
+  IP v4: 192.168.1.3/24 type: dynamic noprefixroute scope: global
+    broadcast: 192.168.1.255
+  IP v6: 2001:4479:c608:4800:1682:9fd9:64c:262a/64
+    type: dynamic noprefixroute scope: global
+  IP v6: fe80::f742:eda5:85e2:9d38/64 type: noprefixroute scope: link
+  Device-2: Intel Ethernet I219-V vendor: Lenovo driver: e1000e v: kernel
+    port: N/A bus-ID: 00:1f.6 chip-ID: 8086:15be class-ID: 0200
+  IF: enp0s31f6 state: down mac: 98:fa:9b:47:13:5d
+  Info: services: NetworkManager, systemd-timesyncd, wpa_supplicant
+  WAN IP: 194.223.95.164
+Bluetooth:
+  Device-1: Intel Bluetooth 9460/9560 Jefferson Peak (JfP) driver: btusb
+    v: 0.8 type: USB rev: 2.0 speed: 12 Mb/s lanes: 1 mode: 1.1 bus-ID: 1-10:5
+    chip-ID: 8087:0aaa class-ID: e001
+  Report: hciconfig ID: hci0 rfk-id: 0 state: up address: 3C:F0:11:7A:B1:96
+    bt-v: 5.1 lmp-v: 10 sub-v: 100 hci-v: 10 rev: 100 class-ID: 6c010c
+  Info: acl-mtu: 1021:4 sco-mtu: 96:6 link-policy: rswitch sniff
+    link-mode: peripheral accept service-classes: rendering, capturing, audio,
+    telephony
+Logical:
+  Message: No logical block device data found.
+RAID:
+  Message: No RAID data found.
+Drives:
+  Local Storage: total: 953.87 GiB used: 12.94 GiB (1.4%)
+  SMART Message: Required tool smartctl not installed. Check --recommends
+  ID-1: /dev/nvme0n1 maj-min: 259:0 vendor: Toshiba model: KBG40ZNS1T02
+    NVMe KIOXIA 1024GB size: 953.87 GiB block-size: physical: 512 B
+    logical: 512 B speed: 31.6 Gb/s lanes: 4 tech: SSD serial: 81IPD6ORQX73
+    fw-rev: 10410106 temp: 30.9 C scheme: GPT
+  Message: No optical or floppy data found.
+Partition:
+  ID-1: / raw-size: 25 GiB size: 24.44 GiB (97.76%) used: 12.77 GiB (52.2%)
+    fs: ext4 block-size: 4096 B dev: /dev/nvme0n1p6 maj-min: 259:6
+    label: cinnamoan uuid: 1bbde004-81a0-418d-b47e-a62db71aa697
+  ID-2: /boot/efi raw-size: 886 MiB size: 884.2 MiB (99.80%)
+    used: 174.7 MiB (19.8%) fs: vfat block-size: 512 B dev: /dev/nvme0n1p1
+    maj-min: 259:1 label: EFI SYSTEM uuid: 4831-2B64
+Swap:
+  Kernel: swappiness: 60 (default) cache-pressure: 100 (default) zswap: no
+  ID-1: swap-1 type: partition size: 20.51 GiB used: 0 KiB (0.0%)
+    priority: -2 dev: /dev/nvme0n1p11 maj-min: 259:11 label: swap
+    uuid: fc6ccb29-fdac-4fb0-91c9-e7c641cf604b
+Unmounted:
+  ID-1: /dev/nvme0n1p10 maj-min: 259:10 size: 19.53 GiB fs: ext4
+    label: nobledesktop uuid: 4eed0b8d-32b2-4c00-ab5c-0bca67af219b
+  ID-2: /dev/nvme0n1p2 maj-min: 259:2 size: 128 MiB fs: N/A label: N/A
+    uuid: N/A
+  ID-3: /dev/nvme0n1p3 maj-min: 259:3 size: 1024 MiB fs: ntfs label: N/A
+    uuid: 01DBCA93DF0DABE0
+  ID-4: /dev/nvme0n1p4 maj-min: 259:4 size: 100 GiB fs: ntfs
+    label: Win11 Ent 26100 uuid: 01DBCA938A3E8D00
+  ID-5: /dev/nvme0n1p5 maj-min: 259:5 size: 200 GiB fs: ntfs label: Winuser
+    uuid: 01DAEBB096FF34D0
+  ID-6: /dev/nvme0n1p8 maj-min: 259:8 size: 10.23 GiB fs: ntfs label: Games
+    uuid: 4E7C05AA96FF34D0
+  ID-7: /dev/nvme0n1p9 maj-min: 259:9 size: 217.38 GiB fs: ntfs
+    label: TraktorMusic uuid: 20AA20A3AA207804
+USB:
+  Hub-1: 1-0:1 info: hi-speed hub with single TT ports: 12 rev: 2.0
+    speed: 480 Mb/s (57.2 MiB/s) lanes: 1 mode: 2.0 chip-ID: 1d6b:0002
+    class-ID: 0900
+  Device-1: 1-3:2 info: SINO WEALTH Wired Gaming Keyboard type: keyboard,HID
+    driver: hid-generic,usbhid interfaces: 2 rev: 1.1 speed: 12 Mb/s (1.4 MiB/s)
+    lanes: 1 mode: 1.1 power: 500mA chip-ID: 258a:002a class-ID: 0300
+  Device-2: 1-4:3 info: [Maxxter] Optical gaming mouse type: mouse,keyboard
+    driver: hid-generic,usbhid interfaces: 2 rev: 1.1
+    speed: 1.5 Mb/s (183 KiB/s) lanes: 1 mode: 1.0 power: 100mA
+    chip-ID: 18f8:0f99 class-ID: 0301
+  Device-3: 1-8:4 info: Chicony Integrated Camera (1280x720@30) type: video
+    driver: uvcvideo interfaces: 2 rev: 2.0 speed: 480 Mb/s (57.2 MiB/s)
+    lanes: 1 mode: 2.0 power: 500mA chip-ID: 04f2:b604 class-ID: 0e02
+    serial: 0001
+  Device-4: 1-10:5 info: Intel Bluetooth 9460/9560 Jefferson Peak (JfP)
+    type: bluetooth driver: btusb interfaces: 2 rev: 2.0
+    speed: 12 Mb/s (1.4 MiB/s) lanes: 1 mode: 1.1 power: 100mA
+    chip-ID: 8087:0aaa class-ID: e001
+  Hub-2: 2-0:1 info: super-speed hub ports: 6 rev: 3.1
+    speed: 10 Gb/s (1.16 GiB/s) lanes: 1 mode: 3.2 gen-2x1 chip-ID: 1d6b:0003
+    class-ID: 0900
+Sensors:
+  System Temperatures: cpu: 39.0 C mobo: N/A
+  Fan Speeds (rpm): N/A
+Repos:
+  Packages: pm: dpkg pkgs: 2619 libs: 1334
+    tools: apt,apt-get,aptitude,synaptic pm: flatpak pkgs: 0
+  No active apt repos in: /etc/apt/sources.list
+  Active apt repos in: /etc/apt/sources.list.d/official-package-repositories.list
+    1: deb https://mirror.aarnet.edu.au/pub/linuxmint-packages gigi main upstream import backport
+    2: deb https://deb.debian.org/debian trixie main contrib non-free non-free-firmware
+    3: deb https://deb.debian.org/debian trixie-updates main contrib non-free non-free-firmware
+    4: deb https://security.debian.org/ trixie-security main contrib non-free non-free-firmware
+  Active apt repos in: /etc/apt/sources.list.d/ubuntu.list
+    1: deb [arch=amd64 signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu questing main restricted universe
+    2: deb-src [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu questing main restricted universe
+    3: deb [arch=amd64 signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu questing-updates main restricted universe
+    4: deb-src [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu questing-updates main restricted universe
+    5: deb [arch=amd64 signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu questing-backports main restricted universe
+    6: deb-src [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu questing-backports main restricted universe
+    7: deb [arch=amd64 signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu resolute main restricted universe
+    8: deb-src [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu resolute main restricted universe
+Processes:
+  CPU top: 5 of 303
+  1: cpu: 16.5% command: firefox pid: 4232 mem: 606.3 MiB (3.8%)
+  2: cpu: 15.1% command: firefox-bin pid: 6446 mem: 293.9 MiB (1.8%)
+  3: cpu: 8.9% command: gnome-shell pid: 1817 mem: 260.4 MiB (1.6%)
+  4: cpu: 2.1% command: firefox-bin pid: 4350 mem: 414.1 MiB (2.6%)
+  5: cpu: 1.3% command: gnome-terminal-server pid: 5492 mem: 59.9 MiB (0.3%)
+  Memory top: 5 of 303
+  1: mem: 606.3 MiB (3.8%) command: firefox pid: 4232 cpu: 16.5%
+  2: mem: 414.1 MiB (2.6%) command: firefox-bin pid: 4350 cpu: 2.1%
+  3: mem: 293.9 MiB (1.8%) command: firefox-bin pid: 6446 cpu: 15.1%
+  4: mem: 260.4 MiB (1.6%) command: gnome-shell pid: 1817 cpu: 8.9%
+  5: mem: 214.9 MiB (1.3%) command: firefox-bin pid: 4583 cpu: 0.6%
+Info:
+  Processes: 303 Power: uptime: 42m states: freeze,mem,disk suspend: deep
+    avail: s2idle wakeups: 0 hibernate: platform avail: shutdown, reboot,
+    suspend, test_resume image: 6.07 GiB services: gsd-power,
+    power-profiles-daemon, upowerd Init: systemd v: 257 default: graphical
+    tool: systemctl
+  Compilers: gcc: 14.2.0 alt: 12 Shell: Bash (sudo) v: 5.2.37
+    running-in: gnome-terminal inxi: 3.3.38
