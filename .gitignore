@@ -40,3 +40,10 @@ Documents/code/
 *.deb
 .linuxmint/mintupdate/updates.json
 Pictures/
+.cups/
+.snap/
+.tmp*/
+Desktop/
+
+GoogleDrive/
+snap/
