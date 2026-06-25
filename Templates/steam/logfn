@@ -1,9 +1,0 @@
-
-log () {
-    echo "bin_steam.sh[$$]: $*" >&2 || :
-}
-
-export STEAMSCRIPT_VERSION=1.0.0.82
-
-# Set up domain for script localization
-export TEXTDOMAIN=steam

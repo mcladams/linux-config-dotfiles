@@ -1,13 +1,25 @@
 #!/bin/bash
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-#
-#if [ -f ~/.bash_aliases ]; then
-#    . ~/.bash_aliases
-#fi
+# Sourced by ~/.bashrc
+
+# TO-DOs: by HUMANS or AGENTS
+# FUNCTIONS: modify functions manage errors and align with policy below
+    # functions must have an informative descriptive name (change the names!)
+    # commonly used functions should have an acronym/abbreviated short alias additionally
+    # functions must have a one or two line usage statement provided on user input error
+    # sudo can be used programmatically in these functions as /etc/sudoers has 'mike ALL=(ALL) NOPASSWD: ALL'
+    # refer safety notes for irreversible actions
+# SAFETY: we are aiming to improve the safety of everything in this file within reason (complexity, breaks functionality)
+    # These scripts will only be used by the sudo user uid=1000 'mike'
+    # humans make errors so some safety mechanisms required
+    # Any irreversible actions made safer BY:
+        # Programmtic checks within the script for correct application
+        # and/or a y/n prompt for the user to confirm before execution
+        # and/or reqruires the user to pass -f | --force option passed
+        # and/or should have a -n | --no-action | --dry-run option to simulate execution for user
+        # and/or removing dangerous functions from automatic sourcing in .bash_aliases to a separate script
+        # and/or take a zfs snapshot before the execution
+# TODO-MIKE: zfs snapshot policy, rollback, automaticlly expiring temproary snaps
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -28,7 +40,8 @@ alias l='ls -CF'
 
 #### disk usage ####
 alias du1='du -cxhd1'
-alias du5='du -cxhd1 --all -t20M'
+alias dua='du -cxhd1 --all -t20M'
+dus() { du -xchd1 $@ | sort -h; }
 
 #### other aliases
 alias lsbo='lsblk -o name,size,type,fstype,label,partlabel,uuid,partuuid,mountpoints'
@@ -65,6 +78,7 @@ pname_abs() {
 }
 
 #### rsync ####
+# TODO: rename descriptively and add comment as to when each should be used
 rs_cp() {
 # copy-overwrite dest if different regardless
     rsync -hh --info=stats1,progress2 --modify-window=2 -aHAX "$@"
@@ -85,12 +99,17 @@ rs_mv() {
     rsync -hh --info=stats1,progress2 --modify-window=2 -aHAX --remove-source-files "$@"
 }
 
-#rs_sys { #full system filesystem backup
+# rs_os {
+# turn this alias into a function for runnning a full system filesystem/clone of the **running** os
+# check exlcusions for edge cases
 alias rsyncos='rsync -haHAX --info=stats1,progress2 --modify-window=2 --exclude={"/dev/*","/proc/*","/sys/*","/run/*","/mnt/*","/media/*","/z*","/lost+found","/tmp/*","/cdrom","/boot/efi","/efi"}'
 #
 
 #### apt,dpkg,etc ####
 deb2xz() {
+    # TODO: move to .dotfiles/scripts or similar as part of homedir normalization project
+    # debian 11 bullseye and earlier can only install xz compressed deb packaing, not zstd
+    # this converts zstd comrpessed deb to xz, not really required in .bash_aliases anymore
     set -e
     pkges="$@"
     for pkg in $pkges; do
@@ -120,6 +139,8 @@ deb2xz() {
 
 
 mnta() {
+    # provided with a list of block device lsblk knames and/or labels,mount them all to /media/(kname|label)
+    # not sure if working 
     for arg in $@; do
         if grep -q "$arg" <<< $(lsblk -n -o label); then
             #argnospace=$(echo "$arg" | sed 's/[ ]/\-/g')
@@ -145,7 +166,10 @@ zlsm() {
 }
 
 zlsz() {
+# TODO ASAP EXTEND this script for ways to present zfs user properties from org.zfbootmenu and org.openzfs.systemd
 # zfs list zsys - show zsys custom properties of datasets (fs,snap,all)
+# zsys is deprecated, may be around on ubuntu 22.04 LTS and earlier so keep for now
+ 
     if [ "$1" = "-t" ]; then
         type="$2"
         shift 2
@@ -169,11 +193,11 @@ underscore() {
 }
 
 alias zsnap_large='zfs list -o used,name -t snapshot | sort -h | tail'
-alias conf='/usr/bin/git --git-dir=$HOME/.conf.git --work-tree=$HOME'
 
-# ~/.bash_aliases or ~/.bashrc
 # Unlock the GNOME login keyring manually from shell
-
+# I can't remember why I needed this but keep it
+# I think it was a manjaro distribution i put on an older laptop for someone with autologon
+# and a mediasserver / guest user
 unlock-keyring() {
     local SCRIPT_PATH="$HOME/bin/unlock.py"
 
@@ -203,3 +227,16 @@ unlock-keyring() {
 }
 
 alias cps='cp -a --reflink=auto --backup=simple --update=older'
+
+
+alias zm='sudo mount -t zfs -o zfsutil'
+
+zmp() {
+    # test for dataset
+    # zfs list -Ho name | grep -qFx "$1" && echo "Exists" || echo "Not found"
+    # create mountpoint
+    mkdir -p "$2"
+    sudo mount -t zfs -o zfsutil "$1" "$2"
+}
+alias agi='/home/mike/.local/opt/Antigravity IDE/bin/antigravity-ide'
+alias code='/home/mike/.local/opt/Antigravity IDE/bin/antigravity-ide'
