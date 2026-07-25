@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+# update & prerequisites
+sudo apt update
+sudo apt install -y ca-certificates gnupg curl
+
+# chrome browser
+curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | \
+  sudo gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] \
+  http://dl.google.com/linux/chrome/deb/ stable main" | \
+  sudo tee /etc/apt/sources.list.d/google-chrome.list
+
+# google cloud cli
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | \
+  sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] \
+  https://packages.cloud.google.com/apt cloud-sdk main" | \
+  sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+
+# google antigravity
+curl -fsSL https://us-central1-apt.pkg.dev/doc/repo-signing-key.gpg | \
+  sudo gpg --dearmor --yes -o /usr/share/keyrings/antigravity-repo-key.gpg
+echo "deb [signed-by=/usr/share/keyrings/antigravity-repo-key.gpg] \
+https://us-central1-apt.pkg.dev/projects/antigravity-auto-updater-dev/ antigravity-debian main" | \
+  sudo tee /etc/apt/sources.list.d/antigravity.list > /dev/null
+
+sudo apt update
+sudo apt install google-chrome-stable google-cloud-cli google-cloud-sdk nodejs npm
+gcloud init
+
+# gemini cli
+sudo npm install -g @google/gemini-cli
+gemini auth login

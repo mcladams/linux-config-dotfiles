@@ -1,0 +1,24 @@
+[Unit]
+Description=RClone Mount (gdrive)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=notify
+# Mount command breakdown:
+# --vfs-cache-mode full : Essential for file compatibility (prevents corruption on some apps)
+# --drive-use-trash     : Safety feature. Deleting in Linux moves files to Google Drive 'Bin' (recoverable for 30 days)
+# --no-modtime          : Performance boost. Skips checking modification times on every read
+# --log-file            : Logs errors to /tmp for debugging if mount fails
+ExecStart=/usr/bin/rclone mount gdrive: %h/GoogleDrive \
+    --vfs-cache-mode full \
+    --drive-use-trash \
+    --no-modtime \
+    --log-file /tmp/rclone.log
+
+# Unmount cleanly on stop
+ExecStop=/bin/fusermount -u %h/GoogleDrive
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,26 @@
+#
+# Displays the current Git branch.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
+
+function git-branch-current {
+
+if ! command git rev-parse 2> /dev/null; then
+  echo "/usr/bin/bash: not a repository: /home/mike/.dotfiles/bash/utils" >&2
+  return 1
+fi
+
+local ref="refs/heads/normalization"
+
+if [[ -n "" ]]; then
+  echo ""
+  return 0
+else
+  return 1
+fi
+
+}
+
+git-branch-current $@

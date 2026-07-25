@@ -4,47 +4,27 @@
 
 # TO-DOs: by HUMANS or AGENTS
 # FUNCTIONS: modify functions manage errors and align with policy below
-    # functions must have an informative descriptive name (change the names!)
-    # commonly used functions should have an acronym/abbreviated short alias additionally
-    # functions must have a one or two line usage statement provided on user input error
-    # sudo can be used programmatically in these functions as /etc/sudoers has 'mike ALL=(ALL) NOPASSWD: ALL'
-    # refer safety notes for irreversible actions
-# SAFETY: we are aiming to improve the safety of everything in this file within reason (complexity, breaks functionality)
-    # These scripts will only be used by the sudo user uid=1000 'mike'
-    # humans make errors so some safety mechanisms required
-    # Any irreversible actions made safer BY:
-        # Programmtic checks within the script for correct application
-        # and/or a y/n prompt for the user to confirm before execution
-        # and/or reqruires the user to pass -f | --force option passed
-        # and/or should have a -n | --no-action | --dry-run option to simulate execution for user
-        # and/or removing dangerous functions from automatic sourcing in .bash_aliases to a separate script
-        # and/or take a zfs snapshot before the execution
-# TODO-MIKE: zfs snapshot policy, rollback, automaticlly expiring temproary snaps
+    # functions to have informative descriptive name (optional short alias)
+    # functions need basic usage statement provided on user input error
+    # user mike does not requre passwd for sudo which can be used with caution
+    # manage risk of destructive actions by using some of the below methods
+      # - Programmtic checks within the script for correct application
+      # - y/n prompt for the user to confirm before execution
+      # - reqruires the user to use an argument -f | --force option
+      # - have a -n | --no-action | --dry-run option to simulate effect
+      # - no autoloading in bash_aliases - remove to a manually sourced script
+      # - zfs snapshot before the execution
+# TODO-MIKE: zfs snapshot policy, rollback, automatic expiring temproary snaps
 
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias dir='dir --color=auto'
-    alias vdir='vdir --color=auto'
-
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
-# some more ls aliases
-alias ll='ls -Al'
-alias la='ls -A'
-alias l='ls -CF'
 
 #### disk usage ####
-alias du1='du -cxhd1'
-alias dua='du -cxhd1 --all -t20M'
-dus() { du -xchd1 $@ | sort -h; }
+alias du2='du -xchd2'
+dua() { du -achd1 $@ | sort -h; }
+dus() { sudo du -xchd1 $@ | sort -h; }
+
 
 #### other aliases
-alias lsbo='lsblk -o name,size,type,fstype,label,partlabel,uuid,partuuid,mountpoints'
+alias lsbo='lsblk -o name,size,fstype,label,uuid,partuuid,mountpoints'
 
 #### general functions
 # list user functions defined
@@ -78,32 +58,25 @@ pname_abs() {
 }
 
 #### rsync ####
-# TODO: rename descriptively and add comment as to when each should be used
-rs_cp() {
-# copy-overwrite dest if different regardless
-    rsync -hh --info=stats1,progress2 --modify-window=2 -aHAX "$@"
-}
 
-rs_up() {
-# copy-update do not overwrite newer on dest
-    rsync -hh --info=stats1,progress2 --modify-window=2 -aHAX --update "$@"
-}
+# safe block copy for userdata - only overwrite older and back them up once
+alias cps='cp -a --reflink=auto --backup=simple --update=older'
 
-rs_mir() {
-# copy-clone by removing extra dest files
-    rsync -hh --info=stats1,progress2 --modify-window=2 -aHAX --delete "$@"
-}
+rsync_copyover() { rsync -hh --info=stats1,progress2 --modify-window=1 -aHAX "$@"; }
+alias rs_cp='rsync_copyover'
 
-rs_mv() {
-# move by removing source files
-    rsync -hh --info=stats1,progress2 --modify-window=2 -aHAX --remove-source-files "$@"
-}
+rsync_update() { rsync -hh --info=stats1,progress2 --modify-window=1 -aHAX --update "$@"; }
+alias rs_up='rsync_update'
 
-# rs_os {
-# turn this alias into a function for runnning a full system filesystem/clone of the **running** os
-# check exlcusions for edge cases
-alias rsyncos='rsync -haHAX --info=stats1,progress2 --modify-window=2 --exclude={"/dev/*","/proc/*","/sys/*","/run/*","/mnt/*","/media/*","/z*","/lost+found","/tmp/*","/cdrom","/boot/efi","/efi"}'
-#
+rsync_mirror() { rsync -hh --info=stats1,progress2 --modify-window=1 -aHAX --delete "$@"; }
+alias rs_mir='rsync_mirror'
+
+rsysnc_system() {
+    # use for running system
+    echo 'exclude={"/boot/efi/*","/cdrom","/dev/*","/efi/*","/lost+found","/media/*","/mnt/*","/proc/*","/run/*","/sys/*","/target","/tmp/*"}'
+    echo "waiting five secs" && sleep 5
+    rsync -hh -aHAX --info=stats1,progress2 --modify-window=1 --exclude={"/boot/efi/*","/cdrom","/dev/*","/efi/*","/lost+found","/media/*","/mnt/*","/proc/*","/run/*","/sys/*","/target","/tmp/*"} $@
+}
 
 #### apt,dpkg,etc ####
 deb2xz() {
@@ -158,18 +131,71 @@ mnta() {
 
 #### zfs list,mount,move ####
 
-alias zls='zfs list -o name,used,acltype,atime,overlay,canmount,mounted,mountpoint'
+# deprecated alias previously used
+# alias zm='sudo mount -t zfs -o zfsutil'
+
+# test if a zfs dataset usage :
+# is_zfs_dataset $1 && echo "Exists" || echo "Not found"
+is_zfs_dataset () { zfs list -Ho name | grep -qFx $1; }
+
+### Mounting with -o zfsutil does not change mountpoint zfs property stored
+# can be used repetively to mount one datset in more than one place
+# does not cause zed to record a zfs list history event
+### Mounting with -t zfs without zfs can only be done on mountpoint legacy datasets
+
+# -c causes creation of datasets and recursion not considerd
+# mount point alwasy created with mkdir -p
+
+zfs_mount_tree () {
+    # usage short form arguments, datasets list, mountpoint
+    while getopts "rCR:" opt; do
+        case "$opt" in
+            C)
+                CREATE="true"
+                ;;
+            r)
+                RECURSE="true"
+                ;;
+            R)
+                ALTROOT="$OPTARG"
+                ;;
+            *)
+                echo "Usage: $0 [-C] [-r] [-R <directory> ]"
+                echo "    Mount datasets temporarily. -c Create mising -r recurse -R alt Root"
+                exit 1
+                ;;
+        esac
+    done
+    shift $((OPTIND -1))
+    echo "CREATE=$CREATE RECURSE=$RECURSE ALTROOT=$ALTROOT"
+    echo "1: $1 2: $2 3: $3 4: $4"
+}
+#    zfs list -Ho name | grep -qFx $1 && 
+
+zm (){
+    # zfs list -Ho name | grep -qFx "$1" && echo "Exists" || echo "Not found"
+    # create mountpoint
+    mkdir -p "$2"
+    sudo mount -t zfs -o zfsutil "$1" "$2"
+}
+
+
+
+
+alias zls='zfs list -o name,used,referenced,usedsnap,overlay,canmount,mounted,mountpoint'
 
 zlsm() {
 # zfs list mount - list datasets with canmount=on and/or currently mounted
-    zfs list -o name,used,referenced,canmount,mounted,mountpoint $@ | egrep -e ' on ' -e ' yes '
+#    printf "NAME/tUSED/tREFER/tUSEDSNAP/tOVERLAY/tCANMOUNT/tMOUNTED/tMOUNTPOINT/n"
+    zfs list -o name,used,referenced,usedsnap,overlay,canmount,mounted,mountpoint $@ \
+      | grep -E -e '\(on|off\)[ ]+on'
 }
 
 zlsz() {
 # TODO ASAP EXTEND this script for ways to present zfs user properties from org.zfbootmenu and org.openzfs.systemd
 # zfs list zsys - show zsys custom properties of datasets (fs,snap,all)
 # zsys is deprecated, may be around on ubuntu 22.04 LTS and earlier so keep for now
- 
+
     if [ "$1" = "-t" ]; then
         type="$2"
         shift 2
@@ -191,7 +217,7 @@ underscore() {
         find ./ -mindepth $i -maxdepth $i -regex '.*[ ].*' -print0 | xargs -0 sed 's/[ ]/_/g'
     done
 }
-
+# list we sort all snapshots  by size
 alias zsnap_large='zfs list -o used,name -t snapshot | sort -h | tail'
 
 # Unlock the GNOME login keyring manually from shell
@@ -218,25 +244,10 @@ unlock-keyring() {
     local status=$?
 
     if [[ $status -eq 0 ]]; then
-        echo "✅ Keyring unlocked successfully."
+        echo "Keyring unlocked successfully."
     else
-        echo "❌ Failed to unlock keyring. Check password or session state."
+        echo "Failed to unlock keyring. Check password or session state."
     fi
 
     unset KEYRING_PASSWORD
 }
-
-alias cps='cp -a --reflink=auto --backup=simple --update=older'
-
-
-alias zm='sudo mount -t zfs -o zfsutil'
-
-zmp() {
-    # test for dataset
-    # zfs list -Ho name | grep -qFx "$1" && echo "Exists" || echo "Not found"
-    # create mountpoint
-    mkdir -p "$2"
-    sudo mount -t zfs -o zfsutil "$1" "$2"
-}
-alias agi='/home/mike/.local/opt/Antigravity IDE/bin/antigravity-ide'
-alias code='/home/mike/.local/opt/Antigravity IDE/bin/antigravity-ide'
